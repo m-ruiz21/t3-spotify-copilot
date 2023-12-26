@@ -8,7 +8,7 @@ import SpotifyProvider from "next-auth/providers/discord";
 import { AUTH_URL } from "./spotify-auth";
 
 import { env } from "@/env";
-import { db } from "@/server/db";
+import { db } from "@/server/clients/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
