@@ -11,7 +11,7 @@ export const env = createEnv({
       .string()
       .url()
       .refine(
-        (str) => !str.includes("postgres://"),
+        (str) => !str.includes("YOUR_MYSQL_URL_HERE"),
         "You forgot to change the default URL"
       ),
     NODE_ENV: z
@@ -29,10 +29,7 @@ export const env = createEnv({
       process.env.VERCEL ? z.string() : z.string().url()
     ),
     SPOTIFY_CLIENT_ID: z.string(),
-    SPOTIFY_CLIENT_SECRET: z.string(),
-    SUPABASE_URL: z.string().url(),
-    SUPABASE_KEY: z.string(),
-    OPEN_AI_KEY: z.string().refine((str) => str.startsWith("sk"), "Invalid OpenAI key!"),
+    SPOTIFY_CLIENT_SECRET:z.string()
   },
 
   /**
@@ -53,11 +50,8 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    SPOTIFY_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
-    SPOTIFY_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
-    SUPABASE_URL: process.env.SUPABASE_URL,
-    SUPABASE_KEY: process.env.SUPABASE_KEY,
-    OPEN_AI_KEY: process.env.OPEN_AI_KEY,
+    SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

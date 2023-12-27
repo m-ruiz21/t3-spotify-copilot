@@ -4,11 +4,11 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import SpotifyProvider from "next-auth/providers/discord";
-import { AUTH_URL } from "./spotify-auth";
+import SpotifyProvider from "next-auth/providers/spotify";
+import { AUTH_URL } from "./clients/spotify-auth";
 
 import { env } from "@/env";
-import { db } from "@/server/clients/db";
+import { db } from "@/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
