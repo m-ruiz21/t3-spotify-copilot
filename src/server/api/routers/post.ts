@@ -4,7 +4,9 @@ import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
-} from "@/server/api/trpc";
+} from "@/server/api/trpc";a
+
+import { getToken } from "next-auth/jwt";
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure

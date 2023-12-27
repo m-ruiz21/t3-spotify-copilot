@@ -1,3 +1,7 @@
+/**
+ * Initialize singleton instance of Prisma Client if not in production.
+ */
+
 import { PrismaClient } from "@prisma/client";
 
 import { env } from "@/env";
