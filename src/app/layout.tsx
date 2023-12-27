@@ -1,9 +1,9 @@
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { cookies } from "next/headers";
 
-import { TRPCReactProvider } from "@/trpc/react";
+import { Providers } from "./_providers/providers";
+import { Session } from "next-auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,17 +16,27 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+type RootLayoutProps = {
+  children: React.ReactNode 
+}
+
+// NOTE: This is a hack to get around the fact that next build doesn't thing RootLayoutPropsExtended is a valid type
+// session should always be there due to middleware
+type RootLayoutPropsExtended = RootLayoutProps & { session: Session }
+
+export default function RootLayout(props: RootLayoutProps | RootLayoutPropsExtended) {
+  
+  const { children, session } = {
+    ...props,
+    session: undefined
+  }
+  
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
+        <Providers session={session!}> 
           {children}
-        </TRPCReactProvider>
+        </Providers>
       </body>
     </html>
   );
