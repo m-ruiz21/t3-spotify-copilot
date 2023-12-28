@@ -20,14 +20,15 @@ let globalSingletons: { [key: string]: any } = {};
  * In the above example, `myClassInstance` will be a new instance of `MyClass` if the environment is production. 
  * Otherwise, it will be a singleton instance of `MyClass`.
  */
-export function ConditionalSingleton<T>(type: { new(): T ;} ): T {
+export function ConditionalSingleton<T>(type: { new(...args: any[]): T ;}, args: any[] = []): T {  
+    
     if (process.env.NODE_ENV == 'production'){
-        return new type();
+        return new type(...args);
     }
     
     const typeName = type.name;
     if (!globalSingletons[typeName]) {
-        globalSingletons[typeName] = new type();
+        globalSingletons[typeName] = new type(...args);
     }
 
     return globalSingletons[typeName];
