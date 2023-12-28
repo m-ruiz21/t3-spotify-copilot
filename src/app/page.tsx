@@ -5,6 +5,8 @@ import Navbar from '@/app/_components/navbar'
 import { VStack, Box, Text, Button, Input, Flex, InputGroup, InputRightElement } from '@chakra-ui/react';
 import LoadingScreen from './_components/loading';
 import { ArrowUpIcon } from '@chakra-ui/icons';
+import { api } from "@/trpc/react";
+import { match } from "@/common/models/result";
 
 export default function Home() {
   const [message, setMessage] = useState('');
@@ -25,14 +27,19 @@ export default function Home() {
     return <LoadingScreen />;
   }
 
-  // on load print ("hello world")
   useEffect(() => {
     const getProfile = async () => {
-      // const profile = await api.userProfile.get.query();
+      console.log("howdy");
+      const profile = await api.userProfile.get.useQuery().data!; 
 
-      if (profile) {
-        setProfile(profile);
-      }
+      match(profile)(
+        (data) => {
+          setProfile(data!);
+        },
+        (err) => {
+          console.log(err);
+        }
+      )
     } 
 
     getProfile();

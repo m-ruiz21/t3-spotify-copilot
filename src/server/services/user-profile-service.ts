@@ -3,6 +3,7 @@ import { JWT } from "next-auth/jwt";
 import SpotifyWebApi from "spotify-web-api-node";
 import { openAi } from "../clients/openAi";
 import userRepository from "../repository/user-repository";
+import { match, Ok, Err } from "../../common/models/result";
 
 type UserTop = {
     topArtists: string[],
@@ -12,12 +13,16 @@ type UserTop = {
         artists: string[]
     }[]
 }
+
 export async function createUserDescription(token: JWT, id: string) {
     const spotifyApi = await new SpotifyWebApi({ accessToken: token.accessToken });
     const userDesc = await getChatGPTDescription(spotifyApi);
     const user = await userRepository.update(id, { description: userDesc }); 
     
-    return userDesc;
+    return match(user)(
+        (user) => Ok(userDesc),
+        (error) => Err(error)
+    )
 }
 
 /**
